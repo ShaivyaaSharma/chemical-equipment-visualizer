@@ -5,3 +5,6 @@ pandas
 numpy
 reportlab
 gunicorn
+python-dotenv
+dj-database-url
+whitenoise

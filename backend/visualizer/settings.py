@@ -2,15 +2,20 @@
 # : apps, middleware, database, static files, and CORS
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import dj_database_url
+
+load_dotenv()
 
 #project root 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-srs$jpp543lh4w-7g)ic+cc2k97zml2m!2&+#2ez56k_-2^zer'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-srs$jpp543lh4w-7g)ic+cc2k97zml2m!2&+#2ez56k_-2^zer')
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 
@@ -31,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Recommended for production static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,6 +73,10 @@ DATABASES = {
     }
 }
 
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 # Password validations
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,13 +107,13 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Allow requests from any frontend origin
-# Allow requests from any frontend origin
-CORS_ALLOW_ALL_ORIGINS = True 
+
+CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'True') == 'True'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
