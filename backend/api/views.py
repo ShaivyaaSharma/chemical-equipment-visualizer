@@ -52,6 +52,15 @@ class UploadCSVView(APIView):
  
         try:
             df = pd.read_csv(uploaded_file)
+            
+            
+            missing = [col for col in self.REQUIRED_COLUMNS if col not in df.columns]
+            if missing:
+                return Response(
+                    {"error": f"Invalid Schema. Missing required columns: {', '.join(missing)}"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
         except Exception as e:
             return Response({"error": f"Invalid CSV: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
