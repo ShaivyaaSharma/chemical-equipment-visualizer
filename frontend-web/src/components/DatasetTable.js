@@ -3,7 +3,7 @@ import axios from "axios";
 import config from "../config";
 import "../App.css";
 
-const DatasetTable = ({ datasetId }) => {
+const DatasetTable = ({ datasetId, authHeader }) => {
     const [tableData, setTableData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -15,8 +15,10 @@ const DatasetTable = ({ datasetId }) => {
             setIsLoading(true);
             setErrorMessage("");
             try {
-                const response = await axios.get(`${config.API_BASE_URL}/dataset/${datasetId}/data/`);
-                setTableData(response.data.data);
+                const res = await axios.get(`${config.API_BASE_URL}/dataset/${datasetId}/data/`, {
+                    headers: { Authorization: authHeader }
+                });
+                setTableData(res.data.data);
             } catch (err) {
                 console.error("Error fetching table data:", err);
                 setErrorMessage("Failed to load dataset. Please check your connection.");
@@ -37,7 +39,10 @@ const DatasetTable = ({ datasetId }) => {
 
     return (
         <div className="table-container">
-            <h2 className="section-title">Dataset Overview</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h2 className="section-title">Dataset Overview</h2>
+                <span style={{ color: "var(--text-secondary)" }}>Total Records: {tableData.length}</span>
+            </div>
             <div className="table-responsive">
                 <table className="data-table">
                     <thead>

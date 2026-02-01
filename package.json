@@ -1,0 +1,14 @@
+{
+    "name": "chemical-equipment-visualizer-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:all": "concurrently \"npm run start --prefix frontend-web\" \"backend/venv/bin/python backend/manage.py runserver\" \"npx nodemon --watch frontend-desktop -e py --exec frontend-desktop/venv/bin/python frontend-desktop/main.py\"",
+        "dev:web": "concurrently \"npm run start --prefix frontend-web\" \"backend/venv/bin/python backend/manage.py runserver\"",
+        "clean": "lsof -ti:3000,8000 | xargs kill -9 || true"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2",
+        "nodemon": "^3.1.11"
+    }
+}
