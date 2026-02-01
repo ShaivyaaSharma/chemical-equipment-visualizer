@@ -7,19 +7,19 @@ const DatasetHistory = ({ onSelectDataset, refreshTrigger, authHeader }) => {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
-        fetchHistory();
-    }, [refreshTrigger]);
+        const fetchHistory = async () => {
+            try {
+                const res = await axios.get(`${config.API_BASE_URL}/datasets/`, {
+                    headers: { Authorization: authHeader }
+                });
+                setHistory(res.data);
+            } catch (err) {
+                console.error("Error fetching history:", err);
+            }
+        };
 
-    const fetchHistory = async () => {
-        try {
-            const res = await axios.get(`${config.API_BASE_URL}/datasets/`, {
-                headers: { Authorization: authHeader }
-            });
-            setHistory(res.data);
-        } catch (err) {
-            console.error("Error fetching history:", err);
-        }
-    };
+        fetchHistory();
+    }, [refreshTrigger, authHeader]);
 
     return (
         <div className="container-card" style={{ maxWidth: "100%", background: "transparent", border: "none", padding: 0, boxShadow: "none" }}>

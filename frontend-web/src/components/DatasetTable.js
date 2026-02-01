@@ -28,7 +28,7 @@ const DatasetTable = ({ datasetId, authHeader }) => {
         };
 
         fetchTableData();
-    }, [datasetId]);
+    }, [datasetId, authHeader]);
 
     if (!datasetId) return null;
     if (isLoading) return <div className="loading-message">Loading data...</div>;

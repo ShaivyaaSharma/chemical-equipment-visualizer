@@ -24,7 +24,7 @@ const AnalysisSummary = ({ datasetId, authHeader }) => {
         };
 
         fetchSummary();
-    }, [datasetId]);
+    }, [datasetId, authHeader]);
 
     if (loading) return <div className="loading-text">Calculating metrics...</div>;
     if (!summary) return null;

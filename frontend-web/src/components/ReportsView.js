@@ -20,7 +20,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const ReportsView = ({ datasetId, user, authHeader }) => {
     const [chartData, setChartData] = useState([]);
-    const [datasetInfo, setDatasetInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
     const reportRef = useRef(null);
@@ -37,12 +36,6 @@ const ReportsView = ({ datasetId, user, authHeader }) => {
                 });
                 setChartData(dataRes.data.data);
 
-                // Summary for dataset name
-                const summaryRes = await axios.get(`${config.API_BASE_URL}/dataset/${datasetId}/summary/`, {
-                    headers: { Authorization: authHeader }
-                });
-                setDatasetInfo(summaryRes.data);
-
                 setError("");
             } catch (err) {
                 console.error("Error fetching report data:", err);
@@ -53,7 +46,7 @@ const ReportsView = ({ datasetId, user, authHeader }) => {
         };
 
         fetchData();
-    }, [datasetId]);
+    }, [datasetId, authHeader]);
 
     const handleDownloadPDF = async () => {
         const element = reportRef.current;

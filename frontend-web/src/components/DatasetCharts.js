@@ -58,7 +58,7 @@ const DatasetCharts = ({ datasetId, authHeader }) => {
         };
 
         fetchData();
-    }, [datasetId]);
+    }, [datasetId, authHeader]);
 
     if (!datasetId) return null;
     if (errorMessage) return <div className="error-message">{errorMessage}</div>;
