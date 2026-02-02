@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import config from "../config";
 
 // Component for uploading CSV files
 const UploadCSV = ({ onUploadSuccess, authHeader }) => {
@@ -20,7 +21,7 @@ const UploadCSV = ({ onUploadSuccess, authHeader }) => {
         formData.append("file", file);
 
         try {
-            const res = await axios.post("http://127.0.0.1:8000/api/upload-csv/", formData, {
+            const res = await axios.post(`${config.API_BASE_URL}/upload-csv/`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": authHeader
