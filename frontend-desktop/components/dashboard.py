@@ -142,7 +142,7 @@ class DashboardPage(QWidget):
             files = {'file': open(filepath, 'rb')}
             res = requests.post(f"{API_BASE}/upload-csv/", files=files, auth=auth, timeout=10)
             
-            if res.status_code == 201:
+            if res.status_code in [200, 201]:
                 QMessageBox.information(self, "Success", "Dataset uploaded successfully!")
                 self.main_window.refresh_history()
             else:

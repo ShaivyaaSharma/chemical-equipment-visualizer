@@ -78,7 +78,7 @@ class UploadCSVView(APIView):
             "message": "CSV uploaded and parsed successfully",
             "dataset_id": dataset.id,
             "columns": list(df.columns)
-        })
+        }, status=status.HTTP_201_CREATED)
 
 class DatasetSummaryView(APIView):
     permission_classes = [IsAuthenticated]
