@@ -142,6 +142,11 @@ npm run dev:all
 
 ### Option B: Run Individually
 
+### 🔐 Default Login
+- **Username:** `admin`
+- **Password:** `admin`
+*(Note: If deploying to a fresh cloud database, you must **Sign Up** a new user first or run the superuser script).*
+
 **Backend**:
 ```bash
 source backend/venv/bin/activate
